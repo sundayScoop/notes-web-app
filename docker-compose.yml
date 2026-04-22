@@ -1,0 +1,63 @@
+version: "3.8"
+
+services:
+  webapp:
+    build: .
+    container_name: notes-webapp
+    environment:
+      - WEB_APP_NOTES_MONGODB_HOST=mongo:27017
+      - WEB_APP_NOTES_MONGODB_DATABASE=notesdb
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    networks:
+      - frontend
+      - backend
+
+  mongo:
+    image: mongo
+    container_name: notes-mongo
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - backend
+
+  mongo-express:
+    image: mongo-express
+    container_name: notes-mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_BASICAUTH=false
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+    networks:
+      - frontend
+      - backend
+
+  nginx:
+    image: nginx
+    container_name: notes-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - webapp
+    networks:
+      - frontend
+
+volumes:
+  mongodata:
+
+networks:
+  backend:
+    internal: true
+  frontend:
