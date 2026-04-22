@@ -14,12 +14,12 @@ ntsCtrl.renderAddNote = async (req, res) => {
 };
 
 ntsCtrl.renderAllNotes = async (req, res) => {
-    const note = await Note.find({ user: req.user._id }).sort({ createdAt: 'desc' });
+    const note = await Note.find({ user: req.user._id }).sort({ createdAt: 'desc' }).lean();
     res.render('notes/all-notes', { note });
 }
 
 ntsCtrl.renderEditNote = async (req, res) => {
-    const note = await Note.findById(req.params.id);
+    const note = await Note.findById(req.params.id).lean();
     if (note.user != req.user._id) {
         req.flash('err_msg', 'What are you trying to do?');
         return res.redirect('/notes');
