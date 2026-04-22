@@ -13,7 +13,7 @@ require('./config/passport');
 
 // Settings
 
-app.set('port', process.env.PORT || 4000);
+app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', handlebars({
     defaultLayout: 'main',
@@ -27,15 +27,19 @@ app.set('view engine', '.hbs');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
+app.set('trust proxy', 1);
 app.use(session({
     secret: 'secret',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    proxy: true,
+    cookie: { secure: false, sameSite: 'lax' }
 }));
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash());
 app.use(function (req, res, next) {
+    console.log('[REQ]', req.method, req.url, '| session:', req.sessionID, '| authenticated:', req.isAuthenticated(), '| cookie:', req.headers.cookie);
     res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
     next();
 });
