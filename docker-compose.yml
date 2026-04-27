@@ -5,11 +5,11 @@ services:
     build: .
     container_name: notes-web-app
     environment:
-      - PORT=4000
+      - PORT=3000
       - WEB_APP_NOTES_MONGODB_HOST=mongo:27017
       - WEB_APP_NOTES_MONGODB_DATABASE=notesdb
     ports:
-      - "4000:4000"
+      - "3000:3000"
     depends_on:
       - mongo
     networks:

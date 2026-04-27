@@ -19,10 +19,10 @@ spec:
           image: notes-web-app
           imagePullPolicy: Never
           ports:
-            - containerPort: 4000
+            - containerPort: 3000
           env:
             - name: PORT
-              value: "4000"
+              value: "3000"
             - name: WEB_APP_NOTES_MONGODB_HOST
               value: "mongo-service:27017"
             - name: WEB_APP_NOTES_MONGODB_DATABASE
