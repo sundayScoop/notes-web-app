@@ -3,3 +3,5 @@ node_modules
 src/public/images/greek-vase.png
 src/public/images/user.png
 ssl/*.key
+kubectl
+minikube-linux-amd64
