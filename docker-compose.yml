@@ -3,8 +3,9 @@ version: "3.8"
 services:
   webapp:
     build: .
-    container_name: notes-webapp
+    container_name: notes-web-app
     environment:
+      - PORT=3000
       - WEB_APP_NOTES_MONGODB_HOST=mongo:27017
       - WEB_APP_NOTES_MONGODB_DATABASE=notesdb
     ports:
