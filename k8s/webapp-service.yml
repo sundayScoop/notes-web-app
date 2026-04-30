@@ -3,11 +3,10 @@ kind: Service
 metadata:
   name: webapp-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: webapp
   ports:
     - protocol: TCP
       port: 3000
       targetPort: 3000
-      nodePort: 32000
